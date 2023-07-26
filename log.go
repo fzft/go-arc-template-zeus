@@ -10,11 +10,6 @@ import (
 var logger *zap.Logger
 
 func InitLogger() {
-	viper.SetConfigName("config")
-	viper.AddConfigPath(".")
-	if err := viper.ReadInConfig(); err != nil {
-		panic(err)
-	}
 
 	config := zap.Config{
 		Level:       zap.NewAtomicLevelAt(getLogLevel(viper.GetString("logging.level"))),
