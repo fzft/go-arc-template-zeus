@@ -1,4 +1,4 @@
-# Golang Web Template
+# Golang Web Template (Zeus)
 
 This is a template for creating web applications in Go. It includes the Gin Web Framework and various database technologies for data storage and migration.
 
@@ -35,8 +35,6 @@ Follow these steps to get up and running:
     ```bash
    make migrate-up
     ```
-
-   Replace `/path/to/migrations` with the path to your migration files and `"mysql://username:password@tcp(localhost:3306)/dbname"` with your actual database connection string.
 
 5. **Run the application**
     ```bash
