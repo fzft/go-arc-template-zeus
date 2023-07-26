@@ -1,0 +1,52 @@
+server:
+  host: localhost
+  port: 8080
+
+mysql:
+  host: localhost
+  port: 3306
+  user: root
+  password: root
+  db: zeus
+  max_lifetime: 3 # minutes
+  max_open_conns: 10
+  max_idle_conns: 5
+  query: "charset=utf8"
+
+
+redis:
+  host: localhost
+  port: 6379
+  password: password
+  db: 0
+
+pq:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: password
+  db: mydatabase
+  max_lifetime: 3 # minutes
+  max_open_conns: 10
+  max_idle_conns: 5
+
+mongo:
+  uri: mongodb://localhost:27017
+  database: mydatabase
+
+kafka:
+  brokers:
+    - localhost:9092
+  topics:
+    - mytopic
+
+logging:
+  level: debug
+  encoding: json
+  outputPaths: [ "/var/log/myapp.log"]
+  errorOutputPaths: [ "/var/log/myapp.log" ]
+  rotate:
+    max_size: 100 # megabytes
+    max_age: 7 # days
+    max_backups: 10 # files
+    compress: true
