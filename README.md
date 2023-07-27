@@ -43,6 +43,20 @@ Follow these steps to get up and running:
 
 Your application should now be running!
 
+## Naming Conventions
+
+This template uses the following naming conventions:
+
+- **ENV**: Environment variables should be in all caps and use underscores to separate words. For example, `DB_MYSQL_XXX`.
+- **CONFIG**: Configuration variables should be in all caps and use underscores to separate words. For example, `db.mysql.xxx`.
+  - **DB** 
+    1. Database configuration variables should be prefixed with `db`.
+    2. Database configuration variables should be in lowercase and use underscores to separate words. For example, `db.mysql.xxx`.
+    3. Database configuration variables should be fixed type name. For example, `db.mysql.host` and `db.postgres.host`.
+  
+- **DATABASE**: Database tables should be in all lowercase and use underscores to separate words. For example, `users`.
+
+
 ## Contributing
 
 Contributions are welcome. Please submit a pull request or create an issue if you have something you would like to add or change.

@@ -3,6 +3,7 @@ package sql
 import (
 	"database/sql"
 	"fmt"
+	zeus "github.com/fzft/go-arc-template-zeus"
 	"github.com/fzft/go-arc/template/db"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/spf13/viper"
@@ -27,14 +28,19 @@ func GetStore() db.DB {
 			viper.GetString("mysql.db"))
 		client, err := sql.Open("mysql", dataSourceName)
 		if err == nil {
-
 			// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
 			client.SetConnMaxLifetime(viper.GetDuration("mysql.max_lifetime"))
 			client.SetMaxIdleConns(viper.GetInt("mysql.max_idle_conns"))
 			client.SetMaxOpenConns(viper.GetInt("mysql.max_open_conns"))
+
+			err = client.Ping()
+			if err != nil {
+				panic(fmt.Sprintf("ping mysql error: %v ", err))
+			}
 			instance = &Mysql{
 				Client: client,
 			}
+			zeus.Logger.Info(fmt.Sprintf("mysql connected: %s ", dataSourceName))
 		} else {
 			panic(fmt.Sprintf("connect to mysql error: %v ", err))
 		}

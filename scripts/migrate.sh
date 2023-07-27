@@ -7,6 +7,8 @@ GET_URL=false
 # Regex pattern for MySQL URL validation
 URL_REGEX="^mysql:\/\/[^:]+:[^@]+@tcp\(([^:]+:[0-9]+)\)\/[^?]+\?.*$"
 
+MYSQL_CONFIG_PREFIX="db.mysql"
+
 # Loop over all arguments
 while [[ $# -gt 0 ]]; do
   key="$1"
@@ -57,12 +59,12 @@ if [ "$GET_URL" = true ]; then
   #   password: "password"
 
   # Get host, port, password, user, dbname, and query from the environment or the config file
-  HOST=${MYSQL_HOST:-$(yq e '.mysql.host' "${CONFIG_FILE}")}
-  PORT=${MYSQL_PORT:-$(yq e '.mysql.port' "${CONFIG_FILE}")}
-  PASSWORD=${MYSQL_PASSWORD:-$(yq e '.mysql.password' "${CONFIG_FILE}")}
-  USER=${MYSQL_USER:-$(yq e '.mysql.user' "${CONFIG_FILE}")}
-  DBNAME=${MYSQL_DB:-$(yq e '.mysql.db' "${CONFIG_FILE}")}
-  QUERY=${MYSQL_QUERY:-$(yq e '.mysql.query' "${CONFIG_FILE}")}
+  HOST=${MYSQL_HOST:-$(yq e ".${MYSQL_CONFIG_PREFIX}.host" "${CONFIG_FILE}")}
+  PORT=${MYSQL_PORT:-$(yq e ".${MYSQL_CONFIG_PREFIX}.port" "${CONFIG_FILE}")}
+  PASSWORD=${MYSQL_PASSWORD:-$(yq e ".${MYSQL_CONFIG_PREFIX}.password" "${CONFIG_FILE}")}
+  USER=${MYSQL_USER:-$(yq e ".${MYSQL_CONFIG_PREFIX}.user" "${CONFIG_FILE}")}
+  DBNAME=${MYSQL_DB:-$(yq e ".${MYSQL_CONFIG_PREFIX}.db" "${CONFIG_FILE}")}
+  QUERY=${MYSQL_QUERY:-$(yq e ".${MYSQL_CONFIG_PREFIX}.query" "${CONFIG_FILE}")}
 
   # Construct the URL
   URL="mysql://${USER}:${PASSWORD}@tcp(${HOST}:${PORT})/${DBNAME}?${QUERY}"

@@ -1,4 +1,4 @@
-package template
+package main
 
 import (
 	"github.com/spf13/viper"
@@ -7,7 +7,7 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-var logger *zap.Logger
+var Logger *zap.Logger
 
 func InitLogger() {
 
@@ -33,7 +33,7 @@ func InitLogger() {
 	}
 
 	var err error
-	logger, err = config.Build()
+	Logger, err = config.Build()
 	if err != nil {
 		panic(err)
 	}

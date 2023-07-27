@@ -3,6 +3,7 @@ package pg
 import (
 	"database/sql"
 	"fmt"
+	zeus "github.com/fzft/go-arc-template-zeus"
 	"github.com/fzft/go-arc/template/db"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
@@ -41,6 +42,8 @@ func GetStore() db.DB {
 		instance = &Psql{
 			Client: client,
 		}
+
+		zeus.Logger.Info(fmt.Sprintf("pq connected: %s ", psqlInfo))
 	})
 
 	return instance

@@ -3,6 +3,7 @@ package redis
 import (
 	"context"
 	"fmt"
+	zeus "github.com/fzft/go-arc-template-zeus"
 	"github.com/fzft/go-arc/template/db"
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
@@ -19,7 +20,6 @@ var once sync.Once
 func GetStore() db.DB {
 
 	once.Do(func() {
-
 		ctx := context.Background()
 		connAddr := fmt.Sprintf("%s:%d", viper.GetString("redis.host"), viper.GetInt("redis.port"))
 		client := redis.NewClient(&redis.Options{
@@ -35,6 +35,8 @@ func GetStore() db.DB {
 		instance = &Redis{
 			Client: client,
 		}
+
+		zeus.Logger.Info(fmt.Sprintf("redis connected: %s", connAddr))
 
 	})
 

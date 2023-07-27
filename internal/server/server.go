@@ -11,25 +11,32 @@ type IServer interface {
 }
 
 type Server struct {
-	engine *gin.Engine
+	*gin.Engine
+	listenAddr string
 }
 
 func New() *Server {
-	return &Server{engine: gin.New()}
+	r := gin.Default()
+	r.Routes()
+	return &Server{Engine: r}
 }
 
-// Run runs the http server. this is a blocking call. outsider caller should run it in a goroutine.
-func (s *Server) Run() {
-	s.Routes()
-	listenAddr := fmt.Sprintf("%s:%d", viper.GetString("server.host"), viper.GetInt("server.port"))
+// Start runs the http server. this is a blocking call. outsider caller should run it in a goroutine.
+func (s *Server) Start() {
+	s.listenAddr = fmt.Sprintf("%s:%d", viper.GetString("server.host"), viper.GetInt("server.port"))
 
-	// blocking call
-	s.engine.Run(listenAddr)
+	if err := s.Run(s.listenAddr); err != nil {
+		Logger.Error(fmt.Sprintf("server run error: %v", err))
+	}
+}
+
+func (s *Server) Close() {
+	s.S
 }
 
 // Routes sets the routes for the http server.
-func (s *Server) Routes() {
-	rg := s.engine.Group("/api")
+func Routes(r *gin.Engine) {
+	rg := r.Group("/api")
 
 	addUserRoutes(rg)
 	addPingRoutes(rg)

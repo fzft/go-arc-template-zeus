@@ -3,6 +3,7 @@ package mongo
 import (
 	"context"
 	"fmt"
+	zeus "github.com/fzft/go-arc-template-zeus"
 	"github.com/fzft/go-arc/template/db"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -27,9 +28,16 @@ func GetStore() db.DB {
 			panic(fmt.Sprintf("connect to mongo error: %v ", err))
 		}
 
+		err = client.Ping(context.Background(), nil)
+		if err != nil {
+			panic(fmt.Sprintf("ping mongo error: %v ", err))
+		}
+
 		instance = &Mongo{
 			Client: client,
 		}
+
+		zeus.Logger.Info(fmt.Sprintf("mongo connected: %s ", viper.GetString("mongo.uri")))
 	})
 
 	return instance
